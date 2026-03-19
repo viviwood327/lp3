@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ツギいく｜退職前専用・給付金サポートサービス</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;700;900&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue-deep: #1A3A6B;
+      --blue-mid: #2563EB;
+      --blue-light: #60A5FA;
+      --blue-pale: #DBEAFE;
+      --blue-bg: #EFF6FF;
+      --accent-orange: #F4845F;
+      --accent-gold: #D4A017;
+      --line-green: #00B900;
+      --text-dark: #1C1C2E;
+      --text-mid: #4A5568;
+      --text-light: #718096;
+      --white: #FFFFFF;
+      --border: #E2E8F0;
+      --danger: #DC2626;
+      --danger-bg: #FFF5F5;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Sans JP', 'Hiragino Sans', sans-serif;
+      color: var(--text-dark);
+      line-height: 1.8;
+      font-size: 16px;
+      background: var(--white);
+    }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    section { padding: 80px 0; }
+    @media (max-width: 768px) { section { padding: 48px 0; } }
+
+    /* ── BUTTONS ── */
+    .btn-line {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--line-green);
+      color: #fff;
+      font-size: 17px; font-weight: 700;
+      padding: 18px 40px;
+      border-radius: 50px;
+      text-decoration: none;
+      border: none; cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+      letter-spacing: 0.04em;
+      box-shadow: 0 4px 16px rgba(0,185,0,0.25);
+    }
+    .btn-line:hover { opacity: 0.88; transform: translateY(-2px); }
+    .btn-line-sm {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--line-green);
+      color: #fff;
+      font-size: 13px; font-weight: 700;
+      padding: 12px 22px;
+      border-radius: 50px;
+      text-decoration: none;
+    }
+
+    /* ── LABELS / TITLES ── */
+    .section-label {
+      display: inline-block;
+      background: var(--blue-pale);
+      color: var(--blue-deep);
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 0.1em;
+      padding: 5px 16px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+    }
+    .section-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 34px; font-weight: 700;
+      line-height: 1.4;
+      color: var(--text-dark);
+    }
+    .section-title.white { color: #fff; }
+    .section-sub { font-size: 16px; color: var(--text-mid); line-height: 1.9; margin-top: 16px; }
+    .text-center { text-align: center; }
+    @media (max-width: 768px) { .section-title { font-size: 24px; } }
+
+    /* ─── S1: HEADER ─── */
+    .site-header {
+      position: sticky; top: 0; z-index: 100;
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      height: 70px;
+    }
+    .header-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 70px;
+    }
+    .header-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .header-logo-img { height: 40px; width: auto; }
+    .header-nav ul { display: flex; gap: 28px; list-style: none; }
+    .header-nav a { font-size: 14px; color: var(--text-mid); text-decoration: none; font-weight: 600; }
+    .header-nav a:hover { color: var(--blue-mid); }
+    @media (max-width: 900px) { .header-nav { display: none; } }
+
+    /* ─── S2: HERO ─── */
+    .hero {
+      background: var(--blue-bg);
+      padding: 72px 0 56px;
+      overflow: hidden;
+    }
+    .hero-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 56px; align-items: center;
+    }
+    .hero-badge-wrap { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--white);
+      border: 1.5px solid var(--blue-light);
+      color: var(--blue-deep);
+      font-size: 12px; font-weight: 700;
+      padding: 5px 14px; border-radius: 999px;
+    }
+    .hero-headline {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 42px; font-weight: 700;
+      line-height: 1.35;
+      color: var(--blue-deep);
+      margin-bottom: 20px;
+    }
+    .hero-headline .accent { color: var(--accent-orange); }
+    .hero-sub { font-size: 16px; color: var(--text-mid); line-height: 1.9; margin-bottom: 28px; }
+    .hero-note { font-size: 12px; color: var(--text-light); margin-top: 10px; }
+    .trust-badges {
+      display: flex; gap: 20px; flex-wrap: wrap;
+      margin-top: 32px; padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+    .trust-badge-item {
+      display: flex; align-items: center; gap: 7px;
+      font-size: 13px; color: var(--blue-deep); font-weight: 600;
+    }
+    .hero-visual { display: flex; align-items: center; justify-content: center; }
+    .hero-visual img {
+      width: 100%; max-width: 480px;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(37,99,235,0.15);
+    }
+    @media (max-width: 768px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-visual { order: -1; }
+      .hero-visual img { max-width: 100%; border-radius: 14px; }
+      .hero-headline { font-size: 28px; }
+    }
+
+    /* ─── S3: 損パターン ─── */
+    .loss-section { background: var(--danger-bg); }
+    .loss-cards { display: flex; flex-direction: column; gap: 20px; margin-top: 40px; }
+    .loss-card {
+      background: #fff;
+      border: 1.5px solid #FED7D7;
+      border-radius: 16px;
+      padding: 28px 32px;
+      display: flex; align-items: flex-start; gap: 24px;
+      box-shadow: 0 2px 12px rgba(220,38,38,0.06);
+    }
+    .loss-card-icon { flex-shrink: 0; }
+    .loss-card-icon img { width: 88px; height: 88px; object-fit: contain; }
+    .loss-label {
+      display: inline-flex; align-items: center; gap: 5px;
+      color: var(--danger); font-size: 12px; font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .loss-card-title { font-size: 19px; font-weight: 700; margin-bottom: 8px; }
+    .loss-card-body { font-size: 14px; color: var(--text-mid); line-height: 1.8; }
+    .positive-box {
+      background: linear-gradient(135deg, var(--blue-pale) 0%, #BFDBFE 100%);
+      border-left: 4px solid var(--blue-light);
+      border-radius: 12px;
+      padding: 24px 28px;
+      margin-top: 36px;
+    }
+    .positive-box p { font-size: 17px; font-weight: 700; color: var(--blue-deep); line-height: 1.7; }
+    .loss-cta { text-align: center; margin-top: 32px; }
+    @media (max-width: 600px) {
+      .loss-card { flex-direction: column; align-items: center; text-align: center; }
+    }
+
+    /* ─── S4: なぜ給付金が ─── */
+    .why-section { background: #fff; }
+    .ins-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 40px; }
+    .ins-card {
+      background: var(--blue-bg);
+      border: 1.5px solid var(--blue-pale);
+      border-radius: 16px;
+      padding: 32px 24px; text-align: center;
+    }
+    .ins-card-icon img { width: 96px; height: 96px; object-fit: contain; }
+    .ins-tag {
+      display: inline-block;
+      background: var(--blue-deep); color: #fff;
+      font-size: 12px; font-weight: 700;
+      padding: 4px 14px; border-radius: 999px;
+      margin: 14px 0 10px;
+    }
+    .ins-title { font-size: 18px; font-weight: 700; color: var(--blue-deep); margin-bottom: 8px; }
+    .ins-amount { font-family: 'Noto Serif JP', serif; font-size: 26px; font-weight: 700; color: var(--accent-orange); }
+    .ins-amount span { font-size: 14px; color: var(--text-mid); }
+    .ins-body { font-size: 13px; color: var(--text-mid); line-height: 1.8; margin-top: 8px; }
+    .total-box {
+      margin-top: 32px;
+      background: var(--blue-deep); color: #fff;
+      border-radius: 16px;
+      padding: 32px 40px; text-align: center;
+    }
+    .total-label { font-size: 14px; opacity: 0.8; margin-bottom: 6px; }
+    .total-amount { font-family: 'Noto Serif JP', serif; font-size: 46px; font-weight: 700; color: #93C5FD; }
+    .total-amount span { font-size: 18px; color: rgba(255,255,255,0.75); }
+    .total-note { font-size: 12px; opacity: 0.65; margin-top: 10px; }
+    @media (max-width: 600px) { .ins-grid { grid-template-columns: 1fr; } .total-amount { font-size: 34px; } }
+
+    /* ─── S5: 当てはまりませんか ─── */
+    .prob-section { background: var(--blue-bg); }
+    .prob-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-top: 40px; }
+    .prob-card {
+      background: #fff; border: 1px solid var(--border);
+      border-radius: 14px; padding: 28px 20px; text-align: center;
+    }
+    .prob-card img { width: 76px; height: 76px; object-fit: contain; }
+    .prob-title { font-size: 14px; font-weight: 700; color: var(--text-dark); margin-top: 14px; line-height: 1.6; }
+    @media (max-width: 768px) { .prob-grid { grid-template-columns: 1fr; } }
+
+    /* ─── S5+: 未来像 ─── */
+    .future-section { background: #fff; }
+    .future-cards { display: flex; flex-direction: column; gap: 24px; margin-top: 40px; }
+    .future-card {
+      background: var(--blue-bg); border: 1px solid var(--blue-pale);
+      border-radius: 16px; padding: 28px 32px;
+      display: flex; align-items: flex-start; gap: 24px;
+    }
+    .future-card img { width: 72px; height: 72px; object-fit: contain; flex-shrink: 0; }
+    .future-num { font-size: 11px; font-weight: 700; color: var(--blue-light); letter-spacing: 0.1em; margin-bottom: 6px; }
+    .future-title { font-size: 18px; font-weight: 700; color: var(--blue-deep); margin-bottom: 8px; }
+    .future-body { font-size: 14px; color: var(--text-mid); line-height: 1.8; }
+    @media (max-width: 600px) { .future-card { flex-direction: column; align-items: center; text-align: center; } }
+
+    /* ─── S6: 4つの理由 ─── */
+    .reasons-section { background: var(--blue-deep); }
+    .reasons-section .section-label { background: rgba(255,255,255,0.15); color: #fff; }
+    .reason-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 40px; }
+    .reason-card {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 14px; padding: 28px 24px;
+    }
+    .reason-num {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 34px; font-weight: 700;
+      color: var(--blue-light); opacity: 0.7; line-height: 1;
+      margin-bottom: 10px;
+    }
+    .reason-icon img { width: 52px; height: 52px; object-fit: contain; filter: brightness(0) invert(1); opacity: 0.8; }
+    .reason-title { font-size: 17px; font-weight: 700; color: #fff; margin: 10px 0 8px; }
+    .reason-body { font-size: 13px; color: rgba(255,255,255,0.72); line-height: 1.8; }
+    @media (max-width: 600px) { .reason-grid { grid-template-columns: 1fr; } }
+
+    /* ─── S7: 対象 ─── */
+    .target-section { background: var(--blue-bg); }
+    .target-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 40px; }
+    .target-ok {
+      background: #fff; border: 2px solid var(--blue-light);
+      border-radius: 16px; padding: 28px 24px;
+    }
+    .target-ng {
+      background: var(--danger-bg); border: 2px solid #FCA5A5;
+      border-radius: 16px; padding: 28px 24px;
+    }
+    .t-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; font-weight: 700;
+      padding: 5px 14px; border-radius: 999px; margin-bottom: 16px;
+    }
+    .t-ok { background: var(--blue-pale); color: var(--blue-deep); }
+    .t-ng { background: #FEE2E2; color: var(--danger); }
+    .t-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .t-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; line-height: 1.6; }
+    .t-list li span { flex-shrink: 0; margin-top: 2px; }
+    @media (max-width: 600px) { .target-grid { grid-template-columns: 1fr; } }
+
+    /* ─── S8: 利用者の声 ─── */
+    .voice-section { background: #fff; }
+    .voice-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-top: 40px; }
+    .voice-card {
+      background: var(--blue-bg); border: 1px solid var(--blue-pale);
+      border-radius: 14px; padding: 24px 20px;
+    }
+    .voice-person { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .voice-avatar {
+      width: 46px; height: 46px; border-radius: 50%;
+      background: var(--blue-pale); overflow: hidden; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .voice-avatar img { width: 42px; height: 42px; object-fit: contain; }
+    .voice-name { font-size: 13px; font-weight: 700; }
+    .voice-attr { font-size: 11px; color: var(--text-light); }
+    .voice-body { font-size: 13px; color: var(--text-mid); line-height: 1.8; }
+    .voice-amount { margin-top: 12px; font-size: 12px; font-weight: 700; color: var(--blue-deep); }
+    @media (max-width: 768px) { .voice-grid { grid-template-columns: 1fr; } }
+
+    /* ─── S9: フロー ─── */
+    .flow-section { background: var(--blue-bg); }
+    .flow-steps { display: flex; gap: 0; margin-top: 48px; }
+    .flow-step { flex: 1; text-align: center; padding: 0 12px; position: relative; }
+    .flow-line {
+      position: absolute; top: 28px; left: calc(50% + 30px);
+      width: calc(100% - 60px); height: 2px;
+      background: var(--blue-light);
+    }
+    .flow-step:last-child .flow-line { display: none; }
+    .flow-num {
+      width: 56px; height: 56px;
+      background: var(--blue-deep); color: #fff;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; font-weight: 700;
+      margin: 0 auto 14px;
+    }
+    .flow-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+    .flow-body { font-size: 12px; color: var(--text-mid); line-height: 1.6; }
+    @media (max-width: 768px) {
+      .flow-steps { flex-direction: column; gap: 24px; }
+      .flow-step { display: flex; align-items: flex-start; gap: 16px; text-align: left; }
+      .flow-line { display: none; }
+      .flow-num { flex-shrink: 0; }
+    }
+
+    /* ─── S10: FAQ ─── */
+    .faq-section { background: #fff; }
+    .faq-list { max-width: 760px; margin: 40px auto 0; }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-q {
+      width: 100%; background: none; border: none; cursor: pointer;
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 20px 0; font-size: 16px; font-weight: 700;
+      color: var(--text-dark); text-align: left;
+    }
+    .faq-icon {
+      flex-shrink: 0; width: 28px; height: 28px;
+      background: var(--blue-deep); color: #fff; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700;
+    }
+    .faq-q-text { flex: 1; }
+    .faq-arrow { font-size: 11px; color: var(--blue-mid); transition: transform 0.2s; }
+    .faq-q.open .faq-arrow { transform: rotate(180deg); }
+    .faq-a {
+      display: none; padding: 0 0 20px 40px;
+      font-size: 15px; color: var(--text-mid); line-height: 1.9;
+    }
+    .faq-a.open { display: block; }
+
+    /* ─── S11: Closing CTA ─── */
+    .closing-section { background: var(--blue-deep); padding: 80px 0; }
+    .closing-section .section-label { background: rgba(255,255,255,0.15); color: #fff; }
+    .closing-inner { text-align: center; }
+    .closing-title {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 34px; font-weight: 700;
+      color: #fff; line-height: 1.4; margin-bottom: 20px;
+    }
+    .closing-sub { font-size: 16px; color: rgba(255,255,255,0.8); line-height: 1.9; margin-bottom: 36px; }
+    .closing-note { font-size: 12px; color: rgba(255,255,255,0.55); margin-top: 16px; }
+    @media (max-width: 600px) { .closing-title { font-size: 24px; } }
+
+    /* ─── S12: Footer ─── */
+    .site-footer { background: #0F1F3D; padding: 48px 0 28px; }
+    .footer-inner { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
+    .footer-logo img { height: 36px; width: auto; filter: brightness(0) invert(1); }
+    .footer-logo-sub { font-size: 12px; color: rgba(255,255,255,0.45); margin-top: 6px; }
+    .footer-links { display: flex; gap: 18px; flex-wrap: wrap; }
+    .footer-links a { font-size: 12px; color: rgba(255,255,255,0.55); text-decoration: none; }
+    .footer-links a:hover { color: #fff; }
+    .footer-bottom { margin-top: 32px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; }
+    .footer-bottom p { font-size: 11px; color: rgba(255,255,255,0.35); }
+    .warn-note {
+      background: rgba(255,255,255,0.07); border-radius: 8px;
+      padding: 12px 18px; font-size: 12px;
+      color: rgba(255,255,255,0.5); margin-top: 20px; line-height: 1.7;
+    }
+
+    /* ─── ANIMATION ─── */
+    .fade-in { opacity: 0; transform: translateY(22px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- S1: HEADER -->
+<header class="site-header">
+  <div class="container">
+    <div class="header-inner">
+      <a href="#" class="header-logo">
+        <img class="header-logo-img" src="images/logo.jpeg" alt="ツギいく">
+      </a>
+      <nav class="header-nav">
+        <ul>
+          <li><a href="#why">仕組みを知る</a></li>
+          <li><a href="#reasons">サービス特徴</a></li>
+          <li><a href="#voice">利用者の声</a></li>
+          <li><a href="#faq">よくある質問</a></li>
+        </ul>
+      </nav>
+      <div>
+        <a href="#cta" class="btn-line-sm">
+          <svg width="16" height="16" viewBox="0 0 40 40" fill="white"><path d="M20 4C11.2 4 4 10.4 4 18.2c0 5.2 3 9.8 7.5 12.6L9.8 36 16 32.7c1.3.3 2.6.5 4 .5 8.8 0 16-6.4 16-14.2S28.8 4 20 4z"/></svg>
+          LINEで無料相談する
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- S2: HERO -->
+<section class="hero" id="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="fade-in">
+        <div class="hero-badge-wrap">
+          <span class="hero-badge">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#2563EB"/><path d="M7 12l3 3 7-7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            退職前の方専用サービス
+          </span>
+          <span class="hero-badge">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#2563EB"/><path d="M7 12l3 3 7-7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            オンライン対応・全国OK
+          </span>
+        </div>
+        <h1 class="hero-headline">辞めたら収入ゼロ<span class="accent">──</span><br>それは、制度を<br>知らない人の話。</h1>
+        <p class="hero-sub">雇用保険と社会保険——2つの制度を正しく組み合わせるだけで、退職後も<strong>最大28ヶ月間・給付金を受け取り続けること</strong>ができます。知っているかどうかで、手元に残るお金が数百万円単位で変わります。</p>
+        <a href="#cta" class="btn-line">
+          <svg width="22" height="22" viewBox="0 0 40 40" fill="white"><path d="M20 4C11.2 4 4 10.4 4 18.2c0 5.2 3 9.8 7.5 12.6L9.8 36 16 32.7c1.3.3 2.6.5 4 .5 8.8 0 16-6.4 16-14.2S28.8 4 20 4z"/></svg>
+          LINEで無料相談する（登録無料）
+        </a>
+        <p class="hero-note">※LINE登録・初回相談は無料です。サービス利用は有料（詳細は相談内でご案内）。</p>
+      </div>
+      <div class="hero-visual fade-in">
+        <img src="images/hero.jpeg" alt="退職後の新しいスタート">
+      </div>
+    </div>
+    <div class="trust-badges">
+      <div class="trust-badge-item">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#2563EB"/><path d="M7 12l3 3 7-7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        最大28ヶ月間の給付サポート
+      </div>
+      <div class="trust-badge-item">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#2563EB"/><path d="M7 12l3 3 7-7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        LINE登録・初回相談は無料
+      </div>
+      <div class="trust-badge-item">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#2563EB"/><path d="M7 12l3 3 7-7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        オンライン対応・全国OK
+      </div>
+      <div class="trust-badge-item">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#2563EB"/><path d="M7 12l3 3 7-7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <strong>退職前の方専用サービス</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S3: 損パターン -->
+<section class="loss-section" id="loss">
+  <div class="container">
+    <div class="text-center fade-in">
+      <span class="section-label">こんな方はすでに損しています</span>
+      <h2 class="section-title">退職前に知らないと、<br>取り戻せない損失になります。</h2>
+      <p class="section-sub">「退職さえすれば後でやればいい」と思っていませんか？実は退職後では使えなくなる制度があります。退職前に動けるかどうかで、受け取れる給付金の総額が数百万円変わります。</p>
+    </div>
+    <div class="loss-cards">
+      <div class="loss-card fade-in">
+        <div class="loss-card-icon">
+          <img src="images/icon_clock_money.jpeg" alt="すでに退職済みの方">
+        </div>
+        <div>
+          <div class="loss-label">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#DC2626"/><path d="M15 9l-6 6M9 9l6 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            損パターン 01
+          </div>
+          <div class="loss-card-title">すでに退職済みの方</div>
+          <div class="loss-card-body">退職後は「傷病手当金（社保）」のスキームが使えなくなります。在職中でないと申請できない制度があるため、退職してしまうと最大18ヶ月分の社保給付（月収の約65%）を受け取る機会を失います。</div>
+        </div>
+      </div>
+      <div class="loss-card fade-in">
+        <div class="loss-card-icon">
+          <img src="images/icon_warning.jpeg" alt="傷病手当金を申告済みの方">
+        </div>
+        <div>
+          <div class="loss-label">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#DC2626"/><path d="M15 9l-6 6M9 9l6 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            損パターン 02
+          </div>
+          <div class="loss-card-title">傷病手当金を申告済みの方</div>
+          <div class="loss-card-body">すでに傷病手当金を申告・受給している方は、追加でできる手続きが限られます。「まずは申告だけしておこう」と早まった判断が、後々の給付期間や金額に影響する場合があります。</div>
+        </div>
+      </div>
+      <div class="loss-card fade-in">
+        <div class="loss-card-icon">
+          <img src="images/icon_cal_x.jpeg" alt="退職日を調べずに決めた方">
+        </div>
+        <div>
+          <div class="loss-label">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#DC2626"/><path d="M15 9l-6 6M9 9l6 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            損パターン 03
+          </div>
+          <div class="loss-card-title">退職日を何も調べずに決めた方</div>
+          <div class="loss-card-body">退職日の設定ひとつで、受け取れる給付金の総額が変わります。何も考えずに「月末」や「区切りのいい日」で退職すると、数十万円以上の損失になるケースも。退職日は戦略的に決めることが重要です。</div>
+        </div>
+      </div>
+    </div>
+    <div class="positive-box fade-in">
+      <p>申告前の方はまだ間に合います。LINEで現状を確認するだけで、退職する際の手当でもらえる金額が変わります。</p>
+    </div>
+    <div class="loss-cta fade-in">
+      <a href="#cta" class="btn-line">
+        <svg width="22" height="22" viewBox="0 0 40 40" fill="white"><path d="M20 4C11.2 4 4 10.4 4 18.2c0 5.2 3 9.8 7.5 12.6L9.8 36 16 32.7c1.3.3 2.6.5 4 .5 8.8 0 16-6.4 16-14.2S28.8 4 20 4z"/></svg>
+        まずはLINEで現状を確認する（無料）
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- S4: なぜ給付金が -->
+<section class="why-section" id="why">
+  <div class="container">
+    <div class="text-center fade-in">
+      <span class="section-label">仕組みを知る</span>
+      <h2 class="section-title">なぜ、退職後に<br>お金がもらえるのか？</h2>
+      <p class="section-sub">会社員として働く間、給与から毎月2種類の保険料が天引きされています。この2つの制度を正しく組み合わせることで、退職後も最大28ヶ月間の給付を受け取ることができます。</p>
+    </div>
+    <div class="ins-grid">
+      <div class="ins-card fade-in">
+        <div class="ins-card-icon">
+          <img src="images/icon_doctor_xray.png" alt="社会保険">
+        </div>
+        <div class="ins-tag">社会保険（傷病手当金）</div>
+        <div class="ins-title">在職中から使える"攻め"の給付</div>
+        <div class="ins-amount">月収の約65%<span> × 最大18ヶ月</span></div>
+        <div class="ins-body">退職前に手続きを開始することで、退職後も最大18ヶ月間、月収の約65%を受け取り続けることができます。</div>
+      </div>
+      <div class="ins-card fade-in">
+        <div class="ins-card-icon">
+          <img src="images/icon_businessperson_pc.png" alt="雇用保険">
+        </div>
+        <div class="ins-tag">雇用保険（失業手当）</div>
+        <div class="ins-title">退職後に受け取る"守り"の給付</div>
+        <div class="ins-amount">月収の約50〜80%<span> × 最大10ヶ月</span></div>
+        <div class="ins-body">45〜59歳・加入20年以上の方は最大10ヶ月分の失業手当を受け取れます。傷病手当金の受給後に切り替えて継続受給が可能です。</div>
+      </div>
+    </div>
+    <div class="total-box fade-in">
+      <div class="total-label">2制度を合わせた最大受給期間・金額</div>
+      <div class="total-amount">最大28ヶ月間<span>の給付が可能</span></div>
+      <div class="total-note">※月収25万円の場合、2制度合計で総受給額 約448万円（試算）。受給額は在職期間・年齢・健康状態により異なります。</div>
+    </div>
+  </div>
+</section>
+
+<!-- S5: 当てはまりませんか -->
+<section class="prob-section" id="problem">
+  <div class="container">
+    <div class="text-center fade-in">
+      <span class="section-label">退職を検討されている方へ</span>
+      <h2 class="section-title">こんな状況、<br>当てはまりませんか？</h2>
+    </div>
+    <div class="prob-grid">
+      <div class="prob-card fade-in">
+        <img src="images/icon_calendar.png" alt="ストレスで限界">
+        <div class="prob-title">仕事のストレスで限界を感じているが、退職後の収入が心配で動けない</div>
+      </div>
+      <div class="prob-card fade-in">
+        <img src="images/icon_clock.png" alt="退職したいが時期が...">
+        <div class="prob-title">退職したい気持ちはあるが、「いつ・どう辞めるか」の正しい手順がわからない</div>
+      </div>
+      <div class="prob-card fade-in">
+        <img src="images/icon_graph.png" alt="給付金について知りたい">
+        <div class="prob-title">退職後にもらえるお金があると聞いたが、手続きの複雑さに不安を感じている</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S5+: 未来像 -->
+<section class="future-section" id="future">
+  <div class="container">
+    <div class="text-center fade-in">
+      <span class="section-label">退職後の新しいスタート</span>
+      <h2 class="section-title">退職は終わりじゃない。<br>次のステージへの、<span style="color:#2563EB;">正しい出発点</span>です。</h2>
+      <p class="section-sub">「ツギいく」を利用した方は、給付金を受け取りながら次のキャリアを準備しています。収入が途切れる不安がなければ、本当にやりたいことに集中できる。</p>
+    </div>
+    <div class="future-cards">
+      <div class="future-card fade-in">
+        <img src="images/icon_lightbulb.png" alt="資格取得">
+        <div>
+          <div class="future-num">SUCCESS STORY 01</div>
+          <div class="future-title">給付金を受け取りながら国家資格に合格</div>
+          <div class="future-body">退職後の10ヶ月間、雇用保険を受け取りながら国家資格の勉強に専念。無事に合格し、希望していた業種への転職に成功。「お金の心配をせずに挑戦できたのが大きかった」（30代女性）</div>
+        </div>
+      </div>
+      <div class="future-card fade-in">
+        <img src="images/icon_mobile_reservation.png" alt="副業・独立">
+        <div>
+          <div class="future-num">SUCCESS STORY 02</div>
+          <div class="future-title">28ヶ月の給付期間中に副業を立ち上げ独立</div>
+          <div class="future-body">傷病手当金18ヶ月＋失業手当10ヶ月の合計28ヶ月を活用し、副業を軌道に乗せてから独立。「生活の不安がない状態でビジネスを育てられた」（40代男性）</div>
+        </div>
+      </div>
+      <div class="future-card fade-in">
+        <img src="images/icon_suit_man.png" alt="海外・自由なキャリア">
+        <div>
+          <div class="future-num">SUCCESS STORY 03</div>
+          <div class="future-title">給付金を活用して語学留学・海外キャリアへ</div>
+          <div class="future-body">受給期間中に語学学校へ通い、海外企業への転職を実現。「まとまった給付金があったからこそ、思い切ったキャリアチェンジができた」（35歳女性）</div>
+        </div>
+      </div>
+    </div>
+    <p style="text-align:center; margin-top:20px; font-size:13px; color:#718096;">※上記は制度を活用した実例のイメージです。実際の受給額・期間は個人の状況により異なります。</p>
+  </div>
+</section>
+
+<!-- S6: 4つの理由 -->
+<section class="reasons-section" id="reasons">
+  <div class="container">
+    <div class="text-center fade-in">
+      <span class="section-label">サービス特徴</span>
+      <h2 class="section-title white">「ツギいく」が選ばれる<br>4つの理由</h2>
+    </div>
+    <div class="reason-grid">
+      <div class="reason-card fade-in">
+        <div class="reason-num">01</div>
+        <div class="reason-icon"><img src="images/icon_wallet_man.png" alt=""></div>
+        <div class="reason-title">2制度を組み合わせた一貫サポート</div>
+        <div class="reason-body">雇用保険と社会保険を組み合わせる複雑な手続きを、専門スタッフが最初から最後まで全面サポートします。</div>
+      </div>
+      <div class="reason-card fade-in">
+        <div class="reason-num">02</div>
+        <div class="reason-icon"><img src="images/icon_earth.png" alt=""></div>
+        <div class="reason-title">オンライン完結・全国対応</div>
+        <div class="reason-body">LINEから始まり、全ての相談・手続きナビゲーションをオンラインで実施。在職中のお忙しい方でも隙間時間に進められます。</div>
+      </div>
+      <div class="reason-card fade-in">
+        <div class="reason-num">03</div>
+        <div class="reason-icon"><img src="images/icon_earth_leaves.png" alt=""></div>
+        <div class="reason-title">退職日設定から受給完了まで伴走</div>
+        <div class="reason-body">「いつ辞めるか」という退職日の最適化から、各種申請書類の作成・提出、給付金受取まで全プロセスをナビゲートします。</div>
+      </div>
+      <div class="reason-card fade-in">
+        <div class="reason-num">04</div>
+        <div class="reason-icon"><img src="images/icon_ceo_man.png" alt=""></div>
+        <div class="reason-title">受給期間中もサポート継続</div>
+        <div class="reason-body">給付金を受け取っている間も、更新手続きや変更への対応など継続的にサポート。受給完了まで安心してお任せいただけます。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S7: こんな方 -->
+<section class="target-section" id="target">
+  <div class="container">
+    <div class="text-center fade-in">
+      <span class="section-label">ご利用対象</span>
+      <h2 class="section-title">こんな方のご相談を<br>承っています</h2>
+    </div>
+    <div class="target-grid">
+      <div class="target-ok fade-in">
+        <div class="t-tag t-ok">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#2563EB"/><path d="M7 12l3 3 7-7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          ご利用いただける方
+        </div>
+        <ul class="t-list">
+          <li><span><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#2563EB"/><path d="M7 12l3 3 7-7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>現在在職中で退職を本気で検討している</li>
+          <li><span><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#2563EB"/><path d="M7 12l3 3 7-7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>傷病手当金をまだ申請していない</li>
+          <li><span><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#2563EB"/><path d="M7 12l3 3 7-7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>社会保険（健康保険）に加入している</li>
+          <li><span><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#2563EB"/><path d="M7 12l3 3 7-7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>退職後に給付金を最大化して次のステップを準備したい</li>
+        </ul>
+      </div>
+      <div class="target-ng fade-in">
+        <div class="t-tag t-ng">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#DC2626"/><path d="M15 9l-6 6M9 9l6 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          対象外となる方
+        </div>
+        <ul class="t-list">
+          <li><span><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#DC2626"/><path d="M15 9l-6 6M9 9l6 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>すでに退職済みの方（傷病手当金スキーム対象外）</li>
+          <li><span><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#DC2626"/><path d="M15 9l-6 6M9 9l6 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>傷病手当金をすでに申請・受給中の方</li>
+          <li><span><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#DC2626"/><path d="M15 9l-6 6M9 9l6 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>国民健康保険加入の方（社保給付対象外）</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S8: 利用者の声 -->
+<section class="voice-section" id="voice">
+  <div class="container">
+    <div class="text-center fade-in">
+      <span class="section-label">利用者の声</span>
+      <h2 class="section-title">「ツギいく」を<br>使った方の声</h2>
+    </div>
+    <div class="voice-grid">
+      <div class="voice-card fade-in">
+        <div class="voice-person">
+          <div class="voice-avatar"><img src="images/icon_birthday.png" alt=""></div>
+          <div><div class="voice-name">A.T さん（38歳・男性）</div><div class="voice-attr">IT業界 / 退職準備中に相談</div></div>
+        </div>
+        <div class="voice-body">「会社を辞めたら何も収入がないと思っていたのに、制度を組み合わせれば最大28ヶ月もらえるとは知りませんでした。担当の方が丁寧に説明してくれて安心して手続きを進められました。」</div>
+        <div class="voice-amount">社保18ヶ月 + 雇保10ヶ月で給付受取中</div>
+      </div>
+      <div class="voice-card fade-in">
+        <div class="voice-person">
+          <div class="voice-avatar"><img src="images/img_18.png" alt=""></div>
+          <div><div class="voice-name">M.K さん（42歳・女性）</div><div class="voice-attr">医療業界 / 体調不良で退職を検討</div></div>
+        </div>
+        <div class="voice-body">「体調が悪く退職を考えていましたが収入がなくなる不安で踏み出せませんでした。相談したその日に『まだ間に合います』と言われ、サポートしてもらえたことで決断できました。」</div>
+        <div class="voice-amount">月収の65%を最大18ヶ月間受給予定</div>
+      </div>
+      <div class="voice-card fade-in">
+        <div class="voice-person">
+          <div class="voice-avatar"><img src="images/img_19.png" alt=""></div>
+          <div><div class="voice-name">Y.N さん（35歳・男性）</div><div class="voice-attr">営業職 / 転職準備で活用</div></div>
+        </div>
+        <div class="voice-body">「転職活動に集中したかったのにお金の心配が常にありました。ツギいくで給付金手続きをサポートしてもらい、収入の不安なく転職活動に集中できて次のステップへ進めました。」</div>
+        <div class="voice-amount">給付受給中に転職活動を進めて内定獲得</div>
+      </div>
+    </div>
+    <p style="text-align:center; margin-top:20px; font-size:12px; color:#718096;">※正直に伝えること：診断結果を受けることにより、保険に入りにくくなるケースがあります。メリット・デメリット両面をLINE相談内でご説明します。</p>
+  </div>
+</section>
+
+<!-- S9: フロー -->
+<section class="flow-section" id="flow">
+  <div class="container">
+    <div class="text-center fade-in">
+      <span class="section-label">ご利用の流れ</span>
+      <h2 class="section-title">LINE相談から給付金受取まで<br>5ステップ</h2>
+    </div>
+    <div class="flow-steps fade-in">
+      <div class="flow-step">
+        <div class="flow-line"></div>
+        <div class="flow-num">1</div>
+        <div class="flow-title">LINEで相談</div>
+        <div class="flow-body">LINE追加後、現在の状況をお聞かせください。無料でご相談いただけます。</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-line"></div>
+        <div class="flow-num">2</div>
+        <div class="flow-title">受給プランの提案</div>
+        <div class="flow-body">ご状況に合わせた最適な受給プランをご提案します。</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-line"></div>
+        <div class="flow-num">3</div>
+        <div class="flow-title">手続きサポート開始</div>
+        <div class="flow-body">退職日の最適化から書類作成・申請まで全体の流れをナビゲートします。</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-line"></div>
+        <div class="flow-num">4</div>
+        <div class="flow-title">退職・申請</div>
+        <div class="flow-body">最適なタイミングで退職し各種申請を実施。担当が随時フォローします。</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">5</div>
+        <div class="flow-title">給付金の受取</div>
+        <div class="flow-body">給付開始後も更新手続きなど継続サポート。受給完了まで安心してお任せください。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S10: FAQ -->
+<section class="faq-section" id="faq">
+  <div class="container">
+    <div class="text-center fade-in">
+      <span class="section-label">よくある質問</span>
+      <h2 class="section-title">よくある質問</h2>
+    </div>
+    <div class="faq-list fade-in">
+      <div class="faq-item">
+        <button class="faq-q"><div class="faq-icon">Q</div><div class="faq-q-text">どんな人が対象ですか？</div><div class="faq-arrow">▼</div></button>
+        <div class="faq-a">現在在職中（会社員・社会保険加入）で退職を検討しており、傷病手当金をまだ申請していない方が対象です。すでに退職済みの方や申請・受給中の方はご利用いただけません。</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><div class="faq-icon">Q</div><div class="faq-q-text">本当に無料で相談できますか？</div><div class="faq-arrow">▼</div></button>
+        <div class="faq-a">LINE登録・初回相談は完全無料です。サービスをご利用いただく場合のみ、別途サービス料金（社保+雇保：60万円 / 雇保のみ：30万円）が発生します。</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><div class="faq-icon">Q</div><div class="faq-q-text">いつまでに相談すればいいですか？</div><div class="faq-arrow">▼</div></button>
+        <div class="faq-a">退職を検討している段階で、できるだけ早めのご相談をおすすめします。退職後では申請できない制度があるため、「まだ退職していない」今が最大のチャンスです。</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><div class="faq-icon">Q</div><div class="faq-q-text">手続きは自分でできますか？</div><div class="faq-arrow">▼</div></button>
+        <div class="faq-a">制度自体は公的なもので、ご自身でも申請は可能です。ただし2つの制度を組み合わせる場合は手続きが複雑で、退職日の設定を誤ると受給額が大きく減るケースがあります。</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><div class="faq-icon">Q</div><div class="faq-q-text">相談後に必ず契約しないといけませんか？</div><div class="faq-arrow">▼</div></button>
+        <div class="faq-a">いいえ。相談後にサービスのご利用をお断りいただくことは全く問題ありません。まずは現状を確認して、ご自身にとって最善の選択をしていただければ十分です。</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q"><div class="faq-icon">Q</div><div class="faq-q-text">デメリットはありますか？</div><div class="faq-arrow">▼</div></button>
+        <div class="faq-a">傷病手当金の申請に必要な「病名」が記録されることで、将来的に保険加入が難しくなるケースがあります。メリット・デメリット両面をLINE相談内でご説明します。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S11: Closing CTA -->
+<section class="closing-section" id="cta">
+  <div class="container">
+    <div class="closing-inner fade-in">
+      <span class="section-label">まずは確認だけでもOK</span>
+      <div class="closing-title">退職で損する前に、<br>まず確認だけでもしてみてください。</div>
+      <div class="closing-sub">1回のLINE相談が、あなたの選択肢を大きく広げます。知っているかどうかだけで、手元に残るお金が変わります。相談は無料ですので、まずは気軽に話しかけてみてください。</div>
+      <a href="#" class="btn-line" style="font-size:18px; padding: 20px 48px;">
+        <svg width="24" height="24" viewBox="0 0 40 40" fill="white"><path d="M20 4C11.2 4 4 10.4 4 18.2c0 5.2 3 9.8 7.5 12.6L9.8 36 16 32.7c1.3.3 2.6.5 4 .5 8.8 0 16-6.4 16-14.2S28.8 4 20 4z"/></svg>
+        LINEで無料相談する
+      </a>
+      <div class="closing-note">※LINE登録・初回相談は無料です。サービス利用は有料（詳細は相談内でご案内）。</div>
+    </div>
+  </div>
+</section>
+
+<!-- S12: Footer -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">
+          <img src="images/logo.jpeg" alt="ツギいく">
+        </div>
+
+      </div>
+      <div class="footer-links">
+        <a href="#">プライバシーポリシー</a>
+        <a href="#">利用規約</a>
+        <a href="#">特定商取引法に基づく表記</a>
+        <a href="#">お問い合わせ</a>
+      </div>
+    </div>
+    <div class="warn-note">
+      ※本サービスは退職給付金の受給手続きをサポートするものであり、法律相談・労務相談には該当しません。受給可否や受給額は個人の状況により異なります。詳細はLINE相談にてご確認ください。
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 株式会社ネクストキャリアコンサルティング All Rights Reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const ans = btn.closest('.faq-item').querySelector('.faq-a');
+    btn.classList.toggle('open');
+    ans.classList.toggle('open');
+  });
+});
+</script>
+</body>
+</html>
